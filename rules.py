@@ -53,6 +53,10 @@ def odd_purchase_date(purchase_date):
     return 0
 
 
-def purchase_range(start, end, purchase_time):
-    pass
+def purchase_time(start, end, purchase_time):
+    purchase_time = datetime.strptime(purchase_time, "%H:%M")
+    if (start < purchase_time.time() < end):
+        return 10
+    return 0
+
 

@@ -1,5 +1,6 @@
 import unittest
 from rules import *
+from datetime import time
 
 class TestRulesMethods(unittest.TestCase):
     
@@ -96,6 +97,15 @@ class TestRulesMethods(unittest.TestCase):
     def test_odd_purchase_date(self):
         self.assertEqual(odd_purchase_date("2022-01-01"), 6)
         self.assertEqual(odd_purchase_date("2022-01-02"), 0)
+
+    def test_purchase_time(self):
+        start = time(14, 0, 0)
+        end = time(16, 0, 0)
+        self.assertEqual(purchase_time(start, end, "14:01"), 10)
+        self.assertEqual(purchase_time(start, end, "15:33"), 10)
+        self.assertEqual(purchase_time(start, end, "14:00"), 0)
+        self.assertEqual(purchase_time(start, end, "16:00"), 0)
+        self.assertEqual(purchase_time(start, end, "03:43"), 0)
 
 
 if __name__ == "__main__":

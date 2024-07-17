@@ -73,7 +73,7 @@ class TestRulesMethods(unittest.TestCase):
               "shortDescription": "Doritos Nacho Cheese",
               "price": "3.35"
             },{
-              "shortDescription": "Klarbrunn 12-PK 12 FL OZ",
+              "shortDescription": "    Klarbrunn 12-PK 12 FL OZ      ",
               "price": "12.00"
             }
           ]), 6)
@@ -92,6 +92,10 @@ class TestRulesMethods(unittest.TestCase):
           "price": "2.25"
         }
       ]), 0)
+
+    def test_odd_purchase_date(self):
+        self.assertEqual(odd_purchase_date("2022-01-01"), 6)
+        self.assertEqual(odd_purchase_date("2022-01-02"), 0)
 
 
 if __name__ == "__main__":

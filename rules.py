@@ -1,3 +1,5 @@
+from datetime import datetime
+
 def calculate_points(receipt):
     total_points = 0
     
@@ -45,7 +47,11 @@ def description_multiple(items):
     return total
 
 def odd_purchase_date(purchase_date):
-    pass
+    purchase_date = datetime.strptime(purchase_date, "%Y-%m-%d")
+    if purchase_date.day % 2:
+        return 6
+    return 0
+
 
 def purchase_range(start, end, purchase_time):
     pass

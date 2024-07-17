@@ -1,7 +1,18 @@
 from datetime import datetime
+from datetime import time
 
 def calculate_points(receipt):
-    total_points = 0
+    START = time(14, 0, 0)
+    END = time(16, 0, 0)
+    rewards_points = 0
+    rewards_points += alphanumeric_count(receipt["retailer"])
+    rewards_points += total_round_dollar(receipt["total"])
+    rewards_points += total_multiple(receipt["total"])
+    rewards_points += every_two_items(receipt["items"])
+    rewards_points += description_multiple(receipt["items"])
+    rewards_points += odd_purchase_date(receipt["purchaseDate"])
+    rewards_points += purchase_time(START, END, receipt["purchaseTime"])
+    return rewards_points
     
 
 def alphanumeric_count(retailer_name):

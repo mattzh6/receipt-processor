@@ -28,6 +28,14 @@ def total_multiple(total):
         return 25
     return 0
 
+def every_two_items(items):
+    if not items:
+        return 0
+    total_pairs = len(items) // 2
+    return total_pairs * 5
+    
+
+
 def description_multiple(description):
     pass
 

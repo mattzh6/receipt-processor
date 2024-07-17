@@ -22,6 +22,42 @@ class TestRulesMethods(unittest.TestCase):
         self.assertEqual(total_multiple("56.50"), 25)
         self.assertEqual(total_multiple("6.75"), 25)
 
+    def test_every_two_items(self):
+        self.assertEqual(every_two_items([
+            {
+            "shortDescription": "Mountain Dew 12PK",
+            "price": "6.49"
+            },{
+            "shortDescription": "Emils Cheese Pizza",
+            "price": "12.25"
+            },{
+            "shortDescription": "Knorr Creamy Chicken",
+            "price": "1.26"
+            },{
+            "shortDescription": "Doritos Nacho Cheese",
+            "price": "3.35"
+            },{
+            "shortDescription": "   Klarbrunn 12-PK 12 FL OZ  ",
+            "price": "12.00"
+            }
+        ]), 10)
+        self.assertEqual(every_two_items([]), 0)
+        self.assertEqual(every_two_items([
+            {
+            "shortDescription": "Gatorade",
+            "price": "2.25"
+            },{
+            "shortDescription": "Gatorade",
+            "price": "2.25"
+            },{
+            "shortDescription": "Gatorade",
+            "price": "2.25"
+            },{
+            "shortDescription": "Gatorade",
+            "price": "2.25"
+            }
+        ]), 10)
+
 
 if __name__ == "__main__":
     unittest.main()

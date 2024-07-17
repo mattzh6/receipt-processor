@@ -33,11 +33,16 @@ def every_two_items(items):
         return 0
     total_pairs = len(items) // 2
     return total_pairs * 5
-    
 
-
-def description_multiple(description):
-    pass
+def description_multiple(items):
+    total = 0
+    for item in items:
+        trimmed_description = item["shortDescription"].strip()
+        if not len(trimmed_description) % 3:
+            price = float(item["price"]) * 0.2
+            rounded_price = round(price + 0.5)
+            total += rounded_price
+    return total
 
 def odd_purchase_date(purchase_date):
     pass

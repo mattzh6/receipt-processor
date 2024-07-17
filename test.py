@@ -58,6 +58,41 @@ class TestRulesMethods(unittest.TestCase):
             }
         ]), 10)
 
+    def test_description_multiple(self):
+        self.assertEqual(description_multiple([
+            {
+              "shortDescription": "Mountain Dew 12PK",
+              "price": "6.49"
+            },{
+              "shortDescription": "Emils Cheese Pizza",
+              "price": "12.25"
+            },{
+              "shortDescription": "Knorr Creamy Chicken",
+              "price": "1.26"
+            },{
+              "shortDescription": "Doritos Nacho Cheese",
+              "price": "3.35"
+            },{
+              "shortDescription": "Klarbrunn 12-PK 12 FL OZ",
+              "price": "12.00"
+            }
+          ]), 6)
+        self.assertEqual(description_multiple([
+        {
+          "shortDescription": "Gatorade",
+          "price": "2.25"
+        },{
+          "shortDescription": "Gatorade",
+          "price": "2.25"
+        },{
+          "shortDescription": "Gatorade",
+          "price": "2.25"
+        },{
+          "shortDescription": "Gatorade",
+          "price": "2.25"
+        }
+      ]), 0)
+
 
 if __name__ == "__main__":
     unittest.main()

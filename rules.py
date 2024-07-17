@@ -10,15 +10,23 @@ def alphanumeric_count(retailer_name):
     return total
 
 def total_round_dollar(total):
-    # Convert total to float
     total = float(total)
+    # Assume that total being 0 would not reward any points even if it is a round dollar amount with no cents
+    if total == 0:
+        return 0
     roundedTotal = total * 100 // 100
     if roundedTotal != 0 and total % roundedTotal:
         return 0
     return 50
 
 def total_multiple(total):
-    pass
+    total = float(total)
+    # Assume that a total being 0 doesn't reward any points
+    if total == 0:
+        return 0
+    if not total % 0.25:
+        return 25
+    return 0
 
 def description_multiple(description):
     pass

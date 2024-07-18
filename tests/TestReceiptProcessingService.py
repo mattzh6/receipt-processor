@@ -1,6 +1,7 @@
 import unittest
 from datetime import time
 from controller import ReceiptProcessingService
+from model import Receipt
 
 class TestReceiptProcessingService(unittest.TestCase):
 
@@ -64,7 +65,8 @@ class TestReceiptProcessingService(unittest.TestCase):
         ]), 10)
 
     def test_description_multiple(self):
-        self.assertEqual(description_multiple([
+        receipt_processing_service = ReceiptProcessingService.ReceiptProcessingService()
+        self.assertEqual(receipt_processing_service.description_multiple([
             {
                 "shortDescription": "Mountain Dew 12PK",
                 "price": "6.49"
@@ -82,7 +84,7 @@ class TestReceiptProcessingService(unittest.TestCase):
                 "price": "12.00"
             }
         ]), 6)
-        self.assertEqual(description_multiple([
+        self.assertEqual(receipt_processing_service.description_multiple([
             {
                 "shortDescription": "Gatorade",
                 "price": "2.25"
@@ -99,24 +101,23 @@ class TestReceiptProcessingService(unittest.TestCase):
         ]), 0)
 
     def test_odd_purchase_date(self):
-        self.assertEqual(odd_purchase_date("2022-01-01"), 6)
-        self.assertEqual(odd_purchase_date("2022-01-02"), 0)
+        receipt_processing_service = ReceiptProcessingService.ReceiptProcessingService()
+        self.assertEqual(receipt_processing_service.odd_purchase_date("2022-01-01"), 6)
+        self.assertEqual(receipt_processing_service.odd_purchase_date("2022-01-02"), 0)
 
     def test_purchase_time(self):
+        receipt_processing_service = ReceiptProcessingService.ReceiptProcessingService()
         start = time(14, 0, 0)
         end = time(16, 0, 0)
-        self.assertEqual(purchase_time(start, end, "14:01"), 10)
-        self.assertEqual(purchase_time(start, end, "15:33"), 10)
-        self.assertEqual(purchase_time(start, end, "14:00"), 0)
-        self.assertEqual(purchase_time(start, end, "16:00"), 0)
-        self.assertEqual(purchase_time(start, end, "03:43"), 0)
+        self.assertEqual(receipt_processing_service.purchase_time(start, end, "14:01"), 10)
+        self.assertEqual(receipt_processing_service.purchase_time(start, end, "15:33"), 10)
+        self.assertEqual(receipt_processing_service.purchase_time(start, end, "14:00"), 0)
+        self.assertEqual(receipt_processing_service.purchase_time(start, end, "16:00"), 0)
+        self.assertEqual(receipt_processing_service.purchase_time(start, end, "03:43"), 0)
 
     def test_calculate_points(self):
-        self.assertEqual(calculate_points({
-            "retailer": "Target",
-            "purchaseDate": "2022-01-01",
-            "purchaseTime": "13:01",
-            "items": [
+        receipt_processing_service = ReceiptProcessingService.ReceiptProcessingService()
+        receipt_one = Receipt.Receipt("Target", "2022-01-01", "13:01", [
                 {
                     "shortDescription": "Mountain Dew 12PK",
                     "price": "6.49"
@@ -133,14 +134,8 @@ class TestReceiptProcessingService(unittest.TestCase):
                     "shortDescription": "   Klarbrunn 12-PK 12 FL OZ  ",
                     "price": "12.00"
                 }
-            ],
-            "total": "35.35"
-        }), 28)
-        self.assertEqual(calculate_points({
-            "retailer": "M&M Corner Market",
-            "purchaseDate": "2022-03-20",
-            "purchaseTime": "14:33",
-            "items": [
+            ], "35.35")
+        receipt_two = Receipt.Receipt("M&M Corner Market", "2022-03-20", "14:33", [
                 {
                     "shortDescription": "Gatorade",
                     "price": "2.25"
@@ -154,6 +149,7 @@ class TestReceiptProcessingService(unittest.TestCase):
                     "shortDescription": "Gatorade",
                     "price": "2.25"
                 }
-            ],
-            "total": "9.00"
-        }), 109)
+            ], "9.00")
+
+        self.assertEqual(receipt_processing_service.calculate_points(receipt_one), 28)
+        self.assertEqual(receipt_processing_service.calculate_points(receipt_two), 109)

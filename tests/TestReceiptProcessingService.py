@@ -1,7 +1,8 @@
 import unittest
 from datetime import time
 from controller import ReceiptProcessingService
-from model import Receipt
+from model.Item import Item
+from model.Receipt import Receipt
 
 class TestReceiptProcessingService(unittest.TestCase):
 
@@ -29,44 +30,8 @@ class TestReceiptProcessingService(unittest.TestCase):
 
     def test_every_two_items(self):
         receipt_processing_service = ReceiptProcessingService.ReceiptProcessingService()
-        self.assertEqual(receipt_processing_service.every_two_items([
-            {
-                "shortDescription": "Mountain Dew 12PK",
-                "price": "6.49"
-            }, {
-                "shortDescription": "Emils Cheese Pizza",
-                "price": "12.25"
-            }, {
-                "shortDescription": "Knorr Creamy Chicken",
-                "price": "1.26"
-            }, {
-                "shortDescription": "Doritos Nacho Cheese",
-                "price": "3.35"
-            }, {
-                "shortDescription": "   Klarbrunn 12-PK 12 FL OZ  ",
-                "price": "12.00"
-            }
-        ]), 10)
-        self.assertEqual(receipt_processing_service.every_two_items([]), 0)
-        self.assertEqual(receipt_processing_service.every_two_items([
-            {
-                "shortDescription": "Gatorade",
-                "price": "2.25"
-            }, {
-                "shortDescription": "Gatorade",
-                "price": "2.25"
-            }, {
-                "shortDescription": "Gatorade",
-                "price": "2.25"
-            }, {
-                "shortDescription": "Gatorade",
-                "price": "2.25"
-            }
-        ]), 10)
 
-    def test_description_multiple(self):
-        receipt_processing_service = ReceiptProcessingService.ReceiptProcessingService()
-        self.assertEqual(receipt_processing_service.description_multiple([
+        items_one = [
             {
                 "shortDescription": "Mountain Dew 12PK",
                 "price": "6.49"
@@ -83,8 +48,12 @@ class TestReceiptProcessingService(unittest.TestCase):
                 "shortDescription": "    Klarbrunn 12-PK 12 FL OZ      ",
                 "price": "12.00"
             }
-        ]), 6)
-        self.assertEqual(receipt_processing_service.description_multiple([
+        ]
+        items_one = [Item(**item) for item in items_one]
+        self.assertEqual(receipt_processing_service.every_two_items(items_one), 10)
+        self.assertEqual(receipt_processing_service.every_two_items([]), 0)
+
+        items_two = [
             {
                 "shortDescription": "Gatorade",
                 "price": "2.25"
@@ -98,7 +67,50 @@ class TestReceiptProcessingService(unittest.TestCase):
                 "shortDescription": "Gatorade",
                 "price": "2.25"
             }
-        ]), 0)
+        ]
+        items_two = [Item(**item) for item in items_two]
+        self.assertEqual(receipt_processing_service.every_two_items(items_two), 10)
+
+    def test_description_multiple(self):
+        receipt_processing_service = ReceiptProcessingService.ReceiptProcessingService()
+        items_one = [
+            {
+                "shortDescription": "Mountain Dew 12PK",
+                "price": "6.49"
+            }, {
+                "shortDescription": "Emils Cheese Pizza",
+                "price": "12.25"
+            }, {
+                "shortDescription": "Knorr Creamy Chicken",
+                "price": "1.26"
+            }, {
+                "shortDescription": "Doritos Nacho Cheese",
+                "price": "3.35"
+            }, {
+                "shortDescription": "    Klarbrunn 12-PK 12 FL OZ      ",
+                "price": "12.00"
+            }
+        ]
+        items_one = [Item(**item) for item in items_one]
+        self.assertEqual(receipt_processing_service.description_multiple(items_one), 6)
+
+        items_two = [
+            {
+                "shortDescription": "Gatorade",
+                "price": "2.25"
+            }, {
+                "shortDescription": "Gatorade",
+                "price": "2.25"
+            }, {
+                "shortDescription": "Gatorade",
+                "price": "2.25"
+            }, {
+                "shortDescription": "Gatorade",
+                "price": "2.25"
+            }
+        ]
+        items_two = [Item(**item) for item in items_two]
+        self.assertEqual(receipt_processing_service.description_multiple(items_two), 0)
 
     def test_odd_purchase_date(self):
         receipt_processing_service = ReceiptProcessingService.ReceiptProcessingService()
@@ -116,40 +128,54 @@ class TestReceiptProcessingService(unittest.TestCase):
         self.assertEqual(receipt_processing_service.purchase_time(start, end, "03:43"), 0)
 
     def test_calculate_points(self):
-        receipt_processing_service = ReceiptProcessingService.ReceiptProcessingService()
-        receipt_one = Receipt.Receipt("Target", "2022-01-01", "13:01", [
-                {
-                    "shortDescription": "Mountain Dew 12PK",
-                    "price": "6.49"
-                }, {
-                    "shortDescription": "Emils Cheese Pizza",
-                    "price": "12.25"
-                }, {
-                    "shortDescription": "Knorr Creamy Chicken",
-                    "price": "1.26"
-                }, {
-                    "shortDescription": "Doritos Nacho Cheese",
-                    "price": "3.35"
-                }, {
-                    "shortDescription": "   Klarbrunn 12-PK 12 FL OZ  ",
-                    "price": "12.00"
-                }
-            ], "35.35")
-        receipt_two = Receipt.Receipt("M&M Corner Market", "2022-03-20", "14:33", [
-                {
-                    "shortDescription": "Gatorade",
-                    "price": "2.25"
-                }, {
-                    "shortDescription": "Gatorade",
-                    "price": "2.25"
-                }, {
-                    "shortDescription": "Gatorade",
-                    "price": "2.25"
-                }, {
-                    "shortDescription": "Gatorade",
-                    "price": "2.25"
-                }
-            ], "9.00")
 
+        receipt_processing_service = ReceiptProcessingService.ReceiptProcessingService()
+        receipt_one = {
+          "retailer": "Target",
+          "purchaseDate": "2022-01-01",
+          "purchaseTime": "13:01",
+          "items": [
+            {
+              "shortDescription": "Mountain Dew 12PK",
+              "price": "6.49"
+            },{
+              "shortDescription": "Emils Cheese Pizza",
+              "price": "12.25"
+            },{
+              "shortDescription": "Knorr Creamy Chicken",
+              "price": "1.26"
+            },{
+              "shortDescription": "Doritos Nacho Cheese",
+              "price": "3.35"
+            },{
+              "shortDescription": "   Klarbrunn 12-PK 12 FL OZ  ",
+              "price": "12.00"
+            }
+          ],
+          "total": "35.35"
+        }
+        receipt_one = Receipt(**receipt_one)
+        receipt_two = {
+          "retailer": "M&M Corner Market",
+          "purchaseDate": "2022-03-20",
+          "purchaseTime": "14:33",
+          "items": [
+            {
+              "shortDescription": "Gatorade",
+              "price": "2.25"
+            },{
+              "shortDescription": "Gatorade",
+              "price": "2.25"
+            },{
+              "shortDescription": "Gatorade",
+              "price": "2.25"
+            },{
+              "shortDescription": "Gatorade",
+              "price": "2.25"
+            }
+          ],
+          "total": "9.00"
+        }
+        receipt_two = Receipt(**receipt_two)
         self.assertEqual(receipt_processing_service.calculate_points(receipt_one), 28)
         self.assertEqual(receipt_processing_service.calculate_points(receipt_two), 109)

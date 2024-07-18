@@ -1,18 +1,21 @@
 from datetime import datetime
 from datetime import time
-from model import Receipt
+from decimal import Decimal
+from model.Receipt import Receipt
+from model.Item import Item
+from typing import List
 
 class ReceiptProcessingService():
 
-    def alphanumeric_count(self, retailer_name):
+    def alphanumeric_count(self, retailerName: str):
         total = 0
-        for char in retailer_name:
+        for char in retailerName:
             if (97 <= ord(char) <= 122) or (65 <= ord(char) <= 90):
                 total += 1
         return total
 
-    def total_round_dollar(self, total):
-        total = float(total)
+    def total_round_dollar(self, total: str):
+        total = Decimal(total)
         # Assume that total being 0 would not reward any points even if it is a round dollar amount with no cents
         if total == 0:
             return 0
@@ -21,40 +24,40 @@ class ReceiptProcessingService():
             return 0
         return 50
 
-    def total_multiple(self, total):
-        total = float(total)
+    def total_multiple(self, total: str):
+        total = Decimal(total)
         # Assume that a total being 0 doesn't reward any points
         if total == 0:
             return 0
-        if not total % 0.25:
+        if not total % Decimal(0.25):
             return 25
         return 0
 
-    def every_two_items(self, items):
+    def every_two_items(self, items: List[Item]):
         if not items:
             return 0
         total_pairs = len(items) // 2
         return total_pairs * 5
 
-    def description_multiple(self, items):
+    def description_multiple(self, items: List[Item]):
         total = 0
         for item in items:
-            trimmed_description = item["shortDescription"].strip()
+            trimmed_description = item.getShortDescription.strip()
             if not len(trimmed_description) % 3:
-                price = float(item["price"]) * 0.2
-                rounded_price = round(price + 0.5)
+                price = Decimal(item.getPrice) * Decimal(0.2)
+                rounded_price = round(price + Decimal(0.5))
                 total += rounded_price
         return total
 
-    def odd_purchase_date(self, purchase_date):
-        purchase_date = datetime.strptime(purchase_date, "%Y-%m-%d")
-        if purchase_date.day % 2:
+    def odd_purchase_date(self, purchaseDate: str):
+        purchaseDate = datetime.strptime(purchaseDate, "%Y-%m-%d")
+        if purchaseDate.day % 2:
             return 6
         return 0
 
-    def purchase_time(self, start, end, purchase_time):
-        purchase_time = datetime.strptime(purchase_time, "%H:%M")
-        if (start < purchase_time.time() < end):
+    def purchase_time(self, start: time, end: time, purchaseTime: str):
+        purchaseTime = datetime.strptime(purchaseTime, "%H:%M")
+        if (start < purchaseTime.time() < end):
             return 10
         return 0
 
@@ -62,11 +65,11 @@ class ReceiptProcessingService():
         START = time(14, 0, 0)
         END = time(16, 0, 0)
         rewards_points = 0
-        rewards_points += self.alphanumeric_count(receipt.get_retailer())
-        rewards_points += self.total_round_dollar(receipt.get_total())
-        rewards_points += self.total_multiple(receipt.get_total())
-        rewards_points += self.every_two_items(receipt.get_items())
-        rewards_points += self.description_multiple(receipt.get_items())
-        rewards_points += self.odd_purchase_date(receipt.get_purchase_date())
-        rewards_points += self.purchase_time(START, END, receipt.get_purchase_time())
+        rewards_points += self.alphanumeric_count(receipt.getRetailer)
+        rewards_points += self.total_round_dollar(receipt.getTotal)
+        rewards_points += self.total_multiple(receipt.getTotal)
+        rewards_points += self.every_two_items(receipt.getItems)
+        rewards_points += self.description_multiple(receipt.getItems)
+        rewards_points += self.odd_purchase_date(receipt.getPurchaseDate)
+        rewards_points += self.purchase_time(START, END, receipt.getPurchaseTime)
         return rewards_points

@@ -1,22 +1,30 @@
-class Receipt():
-    def __init__(self, retailer, purchase_date, purchase_time, items, total):
-        self.retailer = retailer
-        self.purchase_date = purchase_date
-        self.purchase_time = purchase_time
-        self.items = items
-        self.total = total
+from typing import List
+from pydantic import BaseModel, Field
+from model.Item import Item
 
-    def get_retailer(self):
+class Receipt(BaseModel):
+    retailer: str = Field(..., pattern=r"^[\w\s&-]+$")
+    purchaseDate: str = Field(..., pattern=r"^\d{4}-\d{2}-\d{2}$")
+    purchaseTime: str = Field(..., pattern=r"^\d{2}:\d{2}$")
+    items: List[Item] = Field(min_length=1)
+    total: str = Field(..., pattern=r"^\d+\.\d{2}$")
+
+    @property
+    def getRetailer(self) -> str:
         return self.retailer
 
-    def get_purchase_date(self):
-        return self.purchase_date
+    @property
+    def getPurchaseDate(self):
+        return self.purchaseDate
 
-    def get_purchase_time(self):
-        return self.purchase_time
+    @property
+    def getPurchaseTime(self):
+        return self.purchaseTime
 
-    def get_items(self):
+    @property
+    def getItems(self):
         return self.items
 
-    def get_total(self):
+    @property
+    def getTotal(self):
         return self.total

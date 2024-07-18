@@ -1,5 +1,4 @@
 import unittest
-from rules import *
 from datetime import time
 from controller import ReceiptProcessingService
 
@@ -13,10 +12,10 @@ class TestReceiptProcessingService(unittest.TestCase):
         self.assertEqual(receipt_processing_service.alphanumeric_count(""), 0)
 
     def test_total_round_dollar(self):
-
-        self.assertEqual(total_round_dollar("9.00"), 50)
-        self.assertEqual(total_round_dollar("4.50"), 0)
-        self.assertEqual(total_round_dollar("0.00"), 0)
+        receipt_processing_service = ReceiptProcessingService.ReceiptProcessingService()
+        self.assertEqual(receipt_processing_service.total_round_dollar("9.00"), 50)
+        self.assertEqual(receipt_processing_service.total_round_dollar("4.50"), 0)
+        self.assertEqual(receipt_processing_service.total_round_dollar("0.00"), 0)
 
     def test_total_multiple(self):
         self.assertEqual(total_multiple("35.35"), 0)

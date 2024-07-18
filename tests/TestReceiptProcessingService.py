@@ -18,15 +18,17 @@ class TestReceiptProcessingService(unittest.TestCase):
         self.assertEqual(receipt_processing_service.total_round_dollar("0.00"), 0)
 
     def test_total_multiple(self):
-        self.assertEqual(total_multiple("35.35"), 0)
-        self.assertEqual(total_multiple("0.00"), 0)
-        self.assertEqual(total_multiple("9.00"), 25)
-        self.assertEqual(total_multiple("156.25"), 25)
-        self.assertEqual(total_multiple("56.50"), 25)
-        self.assertEqual(total_multiple("6.75"), 25)
+        receipt_processing_service = ReceiptProcessingService.ReceiptProcessingService()
+        self.assertEqual(receipt_processing_service.total_multiple("35.35"), 0)
+        self.assertEqual(receipt_processing_service.total_multiple("0.00"), 0)
+        self.assertEqual(receipt_processing_service.total_multiple("9.00"), 25)
+        self.assertEqual(receipt_processing_service.total_multiple("156.25"), 25)
+        self.assertEqual(receipt_processing_service.total_multiple("56.50"), 25)
+        self.assertEqual(receipt_processing_service.total_multiple("6.75"), 25)
 
     def test_every_two_items(self):
-        self.assertEqual(every_two_items([
+        receipt_processing_service = ReceiptProcessingService.ReceiptProcessingService()
+        self.assertEqual(receipt_processing_service.every_two_items([
             {
                 "shortDescription": "Mountain Dew 12PK",
                 "price": "6.49"
@@ -44,8 +46,8 @@ class TestReceiptProcessingService(unittest.TestCase):
                 "price": "12.00"
             }
         ]), 10)
-        self.assertEqual(every_two_items([]), 0)
-        self.assertEqual(every_two_items([
+        self.assertEqual(receipt_processing_service.every_two_items([]), 0)
+        self.assertEqual(receipt_processing_service.every_two_items([
             {
                 "shortDescription": "Gatorade",
                 "price": "2.25"

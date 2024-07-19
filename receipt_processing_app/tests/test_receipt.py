@@ -164,3 +164,18 @@ class TestReceipt(unittest.TestCase):
             }
             receipt["items"] = [Item(**item) for item in receipt["items"]]
             Receipt(**receipt)
+
+    def test_prices_not_equal(self):
+        with self.assertRaises(ValueError):
+            receipt = {
+                "retailer": "Walmart",
+                "purchaseDate": "2021-01-01",
+                "purchaseTime": "12:00",
+                "items": [
+                    {"shortDescription": "Milk", "price": "2.99"},
+                    {"shortDescription": "Bread", "price": "1.99"},
+                ],
+                "total": "11.98",
+            }
+            receipt["items"] = [Item(**item) for item in receipt["items"]]
+            Receipt(**receipt)

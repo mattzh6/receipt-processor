@@ -24,7 +24,7 @@ def process_receipts():
         receipt = request.json
         receipt_id = request_handler.process_receipts(receipt)
         return jsonify({"id": receipt_id})
-    except ValidationError:
+    except (ValueError, ValidationError):
         return "The receipt is invalid", HTTPStatus.BAD_REQUEST
 
 

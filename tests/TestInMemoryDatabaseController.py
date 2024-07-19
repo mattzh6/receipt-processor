@@ -30,7 +30,7 @@ class TestInMemoryDatabaseController(unittest.TestCase):
 
 
 
-    def testNonexistantReceiptId(self):
+    def testNonexistentReceiptId(self):
         inMemoryDatabaseController = InMemoryDatabaseController()
         with self.assertRaises(ValueError):
             inMemoryDatabaseController.getReceipt("this id should not work")

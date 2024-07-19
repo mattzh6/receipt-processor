@@ -13,7 +13,8 @@ class RequestHandler:
         self.receipt_processing_service = receipt_processing_service
 
     def process_receipts(self, receipt: Dict) -> str:
-        receipt["items"] = [Item(**item) for item in receipt["items"]]
+        if "items" in receipt:
+            receipt["items"] = [Item(**item) for item in receipt["items"]]
         receipt = Receipt(**receipt)
         receipt_id = self.data_controller.create_receipt(receipt)
         return receipt_id

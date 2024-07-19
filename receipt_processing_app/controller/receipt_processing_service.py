@@ -1,11 +1,12 @@
 from datetime import datetime
 from datetime import time
 from decimal import Decimal
-from receiptProcessingApp.model.receipt import Receipt
-from receiptProcessingApp.model.item import Item
+from receipt_processing_app.model.receipt import Receipt
+from receipt_processing_app.model.item import Item
 from typing import List
 
-class ReceiptProcessingService():
+
+class ReceiptProcessingService:
 
     def alphanumeric_count(self, retailer_name: str) -> int:
         total = 0
@@ -57,7 +58,7 @@ class ReceiptProcessingService():
 
     def purchase_time(self, start: time, end: time, purchase_time: str) -> int:
         purchase_time = datetime.strptime(purchase_time, "%H:%M")
-        if (start < purchase_time.time() < end):
+        if start < purchase_time.time() < end:
             return 10
         return 0
 

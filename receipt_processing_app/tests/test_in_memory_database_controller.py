@@ -1,7 +1,10 @@
 import unittest
-from receiptProcessingApp.controller.in_memory_database_controller import InMemoryDatabaseController
-from receiptProcessingApp.model.receipt import Receipt
-from receiptProcessingApp.model.item import Item
+from receipt_processing_app.controller.in_memory_database_controller import (
+    InMemoryDatabaseController,
+)
+from receipt_processing_app.model.receipt import Receipt
+from receipt_processing_app.model.item import Item
+
 
 class TestInMemoryDatabaseController(unittest.TestCase):
 
@@ -26,9 +29,6 @@ class TestInMemoryDatabaseController(unittest.TestCase):
         self.assertEqual(receipt.purchase_time, returnedReceipt.purchase_time)
         self.assertEqual(receipt.total, returnedReceipt.total)
         self.assertListEqual(receipt.items, returnedReceipt.items)
-
-
-
 
     def test_nonexistent_receipt_id(self):
         in_memory_database_controller = InMemoryDatabaseController()

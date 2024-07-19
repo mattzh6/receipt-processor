@@ -1,7 +1,8 @@
 import unittest
-from receiptProcessingApp.model.receipt import Receipt
-from receiptProcessingApp.model.item import Item
+from receipt_processing_app.model.receipt import Receipt
+from receipt_processing_app.model.item import Item
 from pydantic import ValidationError
+
 
 class TestReceipt(unittest.TestCase):
     def test_good_receipt(self):

@@ -1,7 +1,8 @@
-from flask import Flask, request, jsonify, abort
-from receiptProcessingApp.controller.request_handler import RequestHandler
+from flask import Flask, request, jsonify
+from receipt_processing_app.controller.request_handler import RequestHandler
 from pydantic import ValidationError
 from http import HTTPStatus
+
 
 def create_app():
     # Flask only recognizes snake case for running the application
@@ -24,4 +25,5 @@ def create_app():
             return jsonify({"points": total_points})
         except ValueError:
             return "No receipt found for that id", HTTPStatus.NOT_FOUND
+
     return app

@@ -1,11 +1,16 @@
 from typing import Dict
 
-from receiptProcessingApp.model.receipt import Receipt
-from receiptProcessingApp.model.item import Item
-from receiptProcessingApp.controller.in_memory_database_controller import InMemoryDatabaseController
-from receiptProcessingApp.controller.receipt_processing_service import ReceiptProcessingService
+from receipt_processing_app.model.receipt import Receipt
+from receipt_processing_app.model.item import Item
+from receipt_processing_app.controller.in_memory_database_controller import (
+    InMemoryDatabaseController,
+)
+from receipt_processing_app.controller.receipt_processing_service import (
+    ReceiptProcessingService,
+)
 
-class RequestHandler():
+
+class RequestHandler:
     def __init__(self):
         self.in_memory_database_controller = InMemoryDatabaseController()
         self.receipt_processing_service = ReceiptProcessingService()

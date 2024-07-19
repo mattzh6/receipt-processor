@@ -7,14 +7,14 @@ from typing import List
 
 class ReceiptProcessingService():
 
-    def alphanumeric_count(self, retailerName: str):
+    def alphanumericCount(self, retailerName: str) -> int:
         total = 0
         for char in retailerName:
             if (97 <= ord(char) <= 122) or (65 <= ord(char) <= 90):
                 total += 1
         return total
 
-    def total_round_dollar(self, total: str):
+    def totalRoundDollar(self, total: str) -> int:
         total = Decimal(total)
         # Assume that total being 0 would not reward any points even if it is a round dollar amount with no cents
         if total == 0:
@@ -24,7 +24,7 @@ class ReceiptProcessingService():
             return 0
         return 50
 
-    def total_multiple(self, total: str):
+    def totalMultiple(self, total: str) -> int:
         total = Decimal(total)
         # Assume that a total being 0 doesn't reward any points
         if total == 0:
@@ -33,13 +33,13 @@ class ReceiptProcessingService():
             return 25
         return 0
 
-    def every_two_items(self, items: List[Item]):
+    def everyTwoItems(self, items: List[Item]) -> int:
         if not items:
             return 0
         total_pairs = len(items) // 2
         return total_pairs * 5
 
-    def description_multiple(self, items: List[Item]):
+    def descriptionMultiple(self, items: List[Item]) -> int:
         total = 0
         for item in items:
             trimmed_description = item.getShortDescription.strip()
@@ -49,27 +49,27 @@ class ReceiptProcessingService():
                 total += rounded_price
         return total
 
-    def odd_purchase_date(self, purchaseDate: str):
+    def oddPurchaseDate(self, purchaseDate: str) -> int:
         purchaseDate = datetime.strptime(purchaseDate, "%Y-%m-%d")
         if purchaseDate.day % 2:
             return 6
         return 0
 
-    def purchase_time(self, start: time, end: time, purchaseTime: str):
+    def purchaseTime(self, start: time, end: time, purchaseTime: str) -> int:
         purchaseTime = datetime.strptime(purchaseTime, "%H:%M")
         if (start < purchaseTime.time() < end):
             return 10
         return 0
 
-    def calculate_points(self, receipt: Receipt) -> int:
+    def calculatePoints(self, receipt: Receipt) -> int:
         START = time(14, 0, 0)
         END = time(16, 0, 0)
         rewards_points = 0
-        rewards_points += self.alphanumeric_count(receipt.getRetailer)
-        rewards_points += self.total_round_dollar(receipt.getTotal)
-        rewards_points += self.total_multiple(receipt.getTotal)
-        rewards_points += self.every_two_items(receipt.getItems)
-        rewards_points += self.description_multiple(receipt.getItems)
-        rewards_points += self.odd_purchase_date(receipt.getPurchaseDate)
-        rewards_points += self.purchase_time(START, END, receipt.getPurchaseTime)
+        rewards_points += self.alphanumericCount(receipt.getRetailer)
+        rewards_points += self.totalRoundDollar(receipt.getTotal)
+        rewards_points += self.totalMultiple(receipt.getTotal)
+        rewards_points += self.everyTwoItems(receipt.getItems)
+        rewards_points += self.descriptionMultiple(receipt.getItems)
+        rewards_points += self.oddPurchaseDate(receipt.getPurchaseDate)
+        rewards_points += self.purchaseTime(START, END, receipt.getPurchaseTime)
         return rewards_points

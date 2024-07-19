@@ -1,27 +1,27 @@
 from flask import Flask, request, jsonify, abort
-from receiptProcessingApp.controller.RequestHandler import RequestHandler
+from receiptProcessingApp.controller.request_handler import RequestHandler
 from pydantic import ValidationError
 from http import HTTPStatus
 
 def create_app():
     # Flask only recognizes snake case for running the application
     app = Flask(__name__)
-    requestHandler = RequestHandler()
+    request_handler = RequestHandler()
 
     @app.get("/receipts/<string:id>/points")
-    def getPoints(id):
+    def get_points(id):
         try:
-            totalPoints = requestHandler.getPoints(id)
-            return jsonify({"points": totalPoints})
+            total_points = request_handler.get_points(id)
+            return jsonify({"points": total_points})
         except ValueError as e:
             return {"reason": str(e)}, HTTPStatus.NOT_FOUND
 
     @app.post("/receipts/process")
-    def processReceipts():
+    def process_receipts():
         try:
             receipt = request.json
-            receiptId = requestHandler.processReceipts(receipt)
-            return jsonify({"id": receiptId})
+            receipt_id = request_handler.process_receipts(receipt)
+            return jsonify({"id": receipt_id})
         except ValidationError as e:
             return {"reason": e.errors()}, HTTPStatus.BAD_REQUEST
 

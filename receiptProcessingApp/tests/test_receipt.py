@@ -1,10 +1,10 @@
 import unittest
-from receiptProcessingApp.model.Receipt import Receipt
-from receiptProcessingApp.model.Item import Item
+from receiptProcessingApp.model.receipt import Receipt
+from receiptProcessingApp.model.item import Item
 from pydantic import ValidationError
 
 class TestReceipt(unittest.TestCase):
-    def testGoodReceipt(self):
+    def test_good_receipt(self):
         receipt = {
             "retailer": "Walmart",
             "purchaseDate": "2021-01-01",
@@ -17,17 +17,17 @@ class TestReceipt(unittest.TestCase):
         }
         receipt["items"] = [Item(**item) for item in receipt["items"]]
         receipt = Receipt(**receipt)
-        self.assertEqual("Walmart", receipt.getRetailer)
-        self.assertEqual("2021-01-01", receipt.getPurchaseDate)
-        self.assertEqual("12:00", receipt.getPurchaseTime)
-        self.assertEqual(2, len(receipt.getItems))
-        self.assertEqual("Milk", receipt.getItems[0].getShortDescription)
-        self.assertEqual("2.99", receipt.getItems[0].getPrice)
-        self.assertEqual("Bread", receipt.getItems[1].getShortDescription)
-        self.assertEqual("1.99", receipt.getItems[1].getPrice)
-        self.assertEqual("4.98", receipt.getTotal)
+        self.assertEqual("Walmart", receipt.retailer)
+        self.assertEqual("2021-01-01", receipt.purchase_date)
+        self.assertEqual("12:00", receipt.purchase_time)
+        self.assertEqual(2, len(receipt.items))
+        self.assertEqual("Milk", receipt.items[0].short_description)
+        self.assertEqual("2.99", receipt.items[0].price)
+        self.assertEqual("Bread", receipt.items[1].short_description)
+        self.assertEqual("1.99", receipt.items[1].price)
+        self.assertEqual("4.98", receipt.total)
 
-    def testBadRetailer(self):
+    def test_bad_retailer(self):
         with self.assertRaises(ValidationError):
             receipt = {
                 "retailer": "!Walmart!",
@@ -42,7 +42,7 @@ class TestReceipt(unittest.TestCase):
             receipt["items"] = [Item(**item) for item in receipt["items"]]
             Receipt(**receipt)
 
-    def testMissingRetailer(self):
+    def test_missing_retailer(self):
         with self.assertRaises(ValidationError):
             receipt = {
                 "purchaseDate": "2021-01-01",
@@ -56,7 +56,7 @@ class TestReceipt(unittest.TestCase):
             receipt["items"] = [Item(**item) for item in receipt["items"]]
             Receipt(**receipt)
 
-    def testBadPurchaseDate(self):
+    def test_bad_purchaseDate(self):
         with self.assertRaises(ValidationError):
             receipt = {
                 "retailer": "Walmart",
@@ -71,7 +71,7 @@ class TestReceipt(unittest.TestCase):
             receipt["items"] = [Item(**item) for item in receipt["items"]]
             Receipt(**receipt)
 
-    def testMissingPurchaseDate(self):
+    def test_missing_purchaseDate(self):
         with self.assertRaises(ValidationError):
             receipt = {
                 "retailer": "Walmart",
@@ -85,7 +85,7 @@ class TestReceipt(unittest.TestCase):
             receipt["items"] = [Item(**item) for item in receipt["items"]]
             Receipt(**receipt)
 
-    def testBadPurchaseTime(self):
+    def test_bad_purchase_time(self):
         with self.assertRaises(ValidationError):
             receipt = {
                 "retailer": "Walmart",
@@ -100,7 +100,7 @@ class TestReceipt(unittest.TestCase):
             receipt["items"] = [Item(**item) for item in receipt["items"]]
             Receipt(**receipt)
 
-    def testMissingPurchaseTime(self):
+    def test_missing_purchase_time(self):
         with self.assertRaises(ValidationError):
             receipt = {
                 "retailer": "Walmart",
@@ -114,7 +114,7 @@ class TestReceipt(unittest.TestCase):
             receipt["items"] = [Item(**item) for item in receipt["items"]]
             Receipt(**receipt)
 
-    def testEmptyItems(self):
+    def test_empty_items(self):
         with self.assertRaises(ValidationError):
             receipt = {
                 "retailer": "Walmart",
@@ -125,7 +125,7 @@ class TestReceipt(unittest.TestCase):
             }
             Receipt(**receipt)
 
-    def testMissingItems(self):
+    def test_missing_items(self):
         with self.assertRaises(ValidationError):
             receipt = {
                 "retailer": "Walmart",
@@ -135,7 +135,7 @@ class TestReceipt(unittest.TestCase):
             }
             Receipt(**receipt)
 
-    def testBadTotal(self):
+    def test_bad_total(self):
         with self.assertRaises(ValidationError):
             receipt = {
                 "retailer": "Walmart",
@@ -150,7 +150,7 @@ class TestReceipt(unittest.TestCase):
             receipt["items"] = [Item(**item) for item in receipt["items"]]
             Receipt(**receipt)
 
-    def testMissingTotal(self):
+    def test_missing_total(self):
         with self.assertRaises(ValidationError):
             receipt = {
                 "retailer": "Walmart",

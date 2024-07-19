@@ -8,21 +8,20 @@ def create_app():
     app = Flask(__name__)
     request_handler = RequestHandler()
 
-    @app.get("/receipts/<string:id>/points")
-    def get_points(id):
-        try:
-            total_points = request_handler.get_points(id)
-            return jsonify({"points": total_points})
-        except ValueError as e:
-            return {"reason": str(e)}, HTTPStatus.NOT_FOUND
-
     @app.post("/receipts/process")
     def process_receipts():
         try:
             receipt = request.json
             receipt_id = request_handler.process_receipts(receipt)
             return jsonify({"id": receipt_id})
-        except ValidationError as e:
-            return {"reason": e.errors()}, HTTPStatus.BAD_REQUEST
+        except ValidationError:
+            return "The receipt is invalid", HTTPStatus.BAD_REQUEST
 
+    @app.get("/receipts/<string:id>/points")
+    def get_points(id):
+        try:
+            total_points = request_handler.get_points(id)
+            return jsonify({"points": total_points})
+        except ValueError:
+            return "No receipt found for that id", HTTPStatus.NOT_FOUND
     return app

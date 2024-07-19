@@ -1,5 +1,5 @@
 import unittest
-from model.Item import Item
+from receiptProcessingApp.model.Item import Item
 from pydantic import ValidationError
 
 class TestItem(unittest.TestCase):

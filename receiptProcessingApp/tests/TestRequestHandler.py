@@ -1,5 +1,5 @@
 import unittest
-from controller.RequestHandler import RequestHandler
+from receiptProcessingApp.controller.RequestHandler import RequestHandler
 
 
 class TestRequestHandler(unittest.TestCase):

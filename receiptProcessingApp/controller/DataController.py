@@ -1,5 +1,5 @@
 import abc
-from model.Receipt import Receipt
+from receiptProcessingApp.model.Receipt import Receipt
 
 class DataController(abc.ABC):
 

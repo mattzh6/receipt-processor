@@ -1,9 +1,9 @@
 from typing import Dict
 
-from model.Receipt import Receipt
-from model.Item import Item
-from controller.InMemoryDatabaseController import InMemoryDatabaseController
-from controller.ReceiptProcessingService import ReceiptProcessingService
+from receiptProcessingApp.model.Receipt import Receipt
+from receiptProcessingApp.model.Item import Item
+from receiptProcessingApp.controller.InMemoryDatabaseController import InMemoryDatabaseController
+from receiptProcessingApp.controller.ReceiptProcessingService import ReceiptProcessingService
 
 class RequestHandler():
     def __init__(self):

@@ -1,8 +1,8 @@
 import unittest
 from datetime import time
-from controller.ReceiptProcessingService import ReceiptProcessingService
-from model.Item import Item
-from model.Receipt import Receipt
+from receiptProcessingApp.controller.ReceiptProcessingService import ReceiptProcessingService
+from receiptProcessingApp.model.Item import Item
+from receiptProcessingApp.model.Receipt import Receipt
 
 class TestReceiptProcessingService(unittest.TestCase):
 

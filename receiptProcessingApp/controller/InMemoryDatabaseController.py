@@ -1,5 +1,5 @@
-from controller.DataController import DataController
-from model.Receipt import Receipt
+from receiptProcessingApp.controller.DataController import DataController
+from receiptProcessingApp.model.Receipt import Receipt
 import uuid
 
 class InMemoryDatabaseController(DataController):

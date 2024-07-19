@@ -1,7 +1,7 @@
 import unittest
-from controller.InMemoryDatabaseController import InMemoryDatabaseController
-from model.Receipt import Receipt
-from model.Item import Item
+from receiptProcessingApp.controller.InMemoryDatabaseController import InMemoryDatabaseController
+from receiptProcessingApp.model.Receipt import Receipt
+from receiptProcessingApp.model.Item import Item
 
 class TestInMemoryDatabaseController(unittest.TestCase):
 

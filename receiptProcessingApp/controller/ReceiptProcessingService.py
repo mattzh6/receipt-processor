@@ -1,8 +1,8 @@
 from datetime import datetime
 from datetime import time
 from decimal import Decimal
-from model.Receipt import Receipt
-from model.Item import Item
+from receiptProcessingApp.model.Receipt import Receipt
+from receiptProcessingApp.model.Item import Item
 from typing import List
 
 class ReceiptProcessingService():

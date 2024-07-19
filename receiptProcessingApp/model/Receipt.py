@@ -1,6 +1,6 @@
 from typing import List
 from pydantic import BaseModel, Field
-from model.Item import Item
+from receiptProcessingApp.model.Item import Item
 
 class Receipt(BaseModel):
     retailer: str = Field(pattern=r"^[\w\s&-]+$")

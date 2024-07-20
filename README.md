@@ -19,4 +19,4 @@ I am using Pydantic to validate the fields that are given from requests to my ap
 
 ### Prices
 I am also assuming that the total in the receipt and the prices in items can be negative as a customer could be refunding items. Whether this behavior influences the reward points in a negative way could potentially be an issue for the customer if it results in rewards points being taken away.
-However, I assume that this is intended as you don't want to give customers free points after they refund items.
+However, I assume that this is intended as you don't want to give customers free points after they refund items. For my implementation I am only allowing total and prices that are positive or 0.

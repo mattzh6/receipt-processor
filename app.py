@@ -4,7 +4,6 @@ from receipt_processing_app.routes import main
 
 
 def create_app():
-    # Flask only recognizes snake case for running the application
     app = Flask(__name__)
     app.register_blueprint(main)
     return app

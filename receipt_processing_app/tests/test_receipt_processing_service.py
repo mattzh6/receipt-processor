@@ -26,6 +26,9 @@ class TestReceiptProcessingService(unittest.TestCase):
         self.assertEqual(receipt_processing_service.total_round_dollar("9.00"), 50)
         self.assertEqual(receipt_processing_service.total_round_dollar("4.50"), 0)
         self.assertEqual(receipt_processing_service.total_round_dollar("0.00"), 0)
+        self.assertEqual(receipt_processing_service.total_round_dollar("0.01"), 0)
+        self.assertEqual(receipt_processing_service.total_round_dollar("0.99"), 0)
+        self.assertEqual(receipt_processing_service.total_round_dollar("10000.99"), 0)
 
     def test_total_multiple(self):
         receipt_processing_service = ReceiptProcessingService()

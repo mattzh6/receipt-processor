@@ -30,8 +30,8 @@ class ReceiptProcessingService:
         # Assume that total being 0 would not reward any points even if it is a round dollar amount with no cents
         if total == 0:
             return 0
-        rounded_total = total * 100 // 100
-        if rounded_total != 0 and total % rounded_total:
+        rounded_total = total * 100
+        if rounded_total % 100:
             return 0
         return 50
 
